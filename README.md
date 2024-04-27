@@ -1,2 +1,3 @@
 # quake_serverinfo
-A create for handling QuakeWorld serverinfo strings.
+
+> A create for handling QuakeWorld serverinfo strings
