@@ -6,7 +6,7 @@
 
 ```rust
 let info_str = r#"\maxfps\77\pm_ktjump\1\*version\MVDSV 0.36"#;
-let info = Serverinfo::from_str(&info_str);
+let info = Serverinfo::from(&info_str);
 
 println!("{:?}", info.maxfps);  // Some(77)
 println!("{:?}", info.version); // Some("MVDSV 0.36")
