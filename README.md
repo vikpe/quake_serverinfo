@@ -44,3 +44,7 @@ pub struct Serverinfo {
     pub z_ext: Option<i32>,
 }
 ```
+
+## See also
+
+* [quake_infostring](https://github.com/vikpe/quake_infostring) - Parse QuakeWorld info strings
