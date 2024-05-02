@@ -5,16 +5,15 @@
 ## Usage
 
 ```rust
-let info_str = r#"\maxfps\77\pm_ktjump\1\*version\MVDSV 0.36"#;
-let info = Serverinfo::from(&info_str);
+use quake_serverinfo::Serverinfo;
 
-println!("{:?}", info.maxfps);  // Some(77)
-println!("{:?}", info.version); // Some("MVDSV 0.36")
-println!("{:?}", info.admin);   // None
+let info = Serverinfo::from(r#"\maxfps\77\matchtag\kombat"#);
+assert_eq!(info.maxfps, Some(77));
+assert_eq!(info.matchtag, Some("kombat".to_string()));
 ```
 
-
 ## Fields
+
 ```rust
 pub struct Serverinfo {
     pub admin: Option<String>,
