@@ -39,40 +39,42 @@ impl Display for Serverinfo {
     }
 }
 
-impl Serverinfo {
-    pub fn from_str(str: &str) -> Self {
-        Self::from_hashmap(&to_hashmap(str))
-    }
-
-    fn from_hashmap(map: &HashMap<String, String>) -> Self {
+impl From<&HashMap<String, String>> for Serverinfo {
+    fn from(value: &HashMap<String, String>) -> Self {
         Self {
-            admin: map_get_string(map, "*admin"),
-            deathmatch: map_get_int(map, "deathmatch"),
-            epoch: map_get_int(map, "epoch"),
-            fpd: map_get_int(map, "fpd"),
-            fraglimit: map_get_int(map, "fraglimit"),
-            gamedir: map_get_string(map, "*gamedir"),
-            hostname: map_get_string(map, "hostname"),
-            ktxmode: map_get_string(map, "ktxmode"),
-            ktxver: map_get_string(map, "ktxver"),
-            map: map_get_string(map, "map"),
-            matchtag: map_get_string(map, "matchtag"),
-            maxclients: map_get_int(map, "maxclients"),
-            maxfps: map_get_int(map, "maxfps"),
-            maxspectators: map_get_int(map, "maxspectators"),
-            mode: map_get_string(map, "mode"),
-            needpass: map_get_int(map, "needpass"),
-            pm_ktjump: map_get_int(map, "pm_ktjump"),
-            progs: map_get_string(map, "*progs"),
-            qvm: map_get_string(map, "*qvm"),
-            status: map_get_string(map, "status"),
-            serverdemo: map_get_string(map, "serverdemo"),
-            sv_antilag: map_get_int(map, "sv_antilag"),
-            teamplay: map_get_int(map, "teamplay"),
-            timelimit: map_get_int(map, "timelimit"),
-            version: map_get_string(map, "*version"),
-            z_ext: map_get_int(map, "*z_ext"),
+            admin: map_get_string(value, "*admin"),
+            deathmatch: map_get_int(value, "deathmatch"),
+            epoch: map_get_int(value, "epoch"),
+            fpd: map_get_int(value, "fpd"),
+            fraglimit: map_get_int(value, "fraglimit"),
+            gamedir: map_get_string(value, "*gamedir"),
+            hostname: map_get_string(value, "hostname"),
+            ktxmode: map_get_string(value, "ktxmode"),
+            ktxver: map_get_string(value, "ktxver"),
+            map: map_get_string(value, "map"),
+            matchtag: map_get_string(value, "matchtag"),
+            maxclients: map_get_int(value, "maxclients"),
+            maxfps: map_get_int(value, "maxfps"),
+            maxspectators: map_get_int(value, "maxspectators"),
+            mode: map_get_string(value, "mode"),
+            needpass: map_get_int(value, "needpass"),
+            pm_ktjump: map_get_int(value, "pm_ktjump"),
+            progs: map_get_string(value, "*progs"),
+            qvm: map_get_string(value, "*qvm"),
+            status: map_get_string(value, "status"),
+            serverdemo: map_get_string(value, "serverdemo"),
+            sv_antilag: map_get_int(value, "sv_antilag"),
+            teamplay: map_get_int(value, "teamplay"),
+            timelimit: map_get_int(value, "timelimit"),
+            version: map_get_string(value, "*version"),
+            z_ext: map_get_int(value, "*z_ext"),
         }
+    }
+}
+
+impl From<&str> for Serverinfo {
+    fn from(value: &str) -> Self {
+        Self::from(&to_hashmap(value))
     }
 }
 
@@ -84,7 +86,6 @@ fn map_get_int(map: &HashMap<String, String>, key: &str) -> Option<i32> {
     map.get(key)?.parse().ok()
 }
 
-
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
@@ -95,13 +96,32 @@ mod tests {
 
     #[test]
     fn test_display() {
-        let info = Serverinfo::from_str(INFO_STR);
-        assert_eq!(info.to_string(), r#"Serverinfo { admin: Some("suom1 <suom1@irc.ax>"), deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), status: Some("Standby"), serverdemo: None, sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#);
+        let info = Serverinfo::from(INFO_STR);
+        assert_eq!(
+            info.to_string(),
+            r#"Serverinfo { admin: Some("suom1 <suom1@irc.ax>"), deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), status: Some("Standby"), serverdemo: None, sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
+        );
+    }
+
+    #[test]
+    fn test_from_hashmap() {
+        let map = HashMap::from([
+            ("maxfps".to_string(), "77".to_string()),
+            ("map".to_string(), "dm2".to_string()),
+        ]);
+
+        let expected = Serverinfo {
+            maxfps: Some(77),
+            map: Some("dm2".to_string()),
+            ..Default::default()
+        };
+
+        assert_eq!(Serverinfo::from(&map), expected);
     }
 
     #[test]
     fn test_from_str() {
-        let info = Serverinfo::from_str(INFO_STR);
+        let info = Serverinfo::from(INFO_STR);
         assert_eq!(info.admin, Some("suom1 <suom1@irc.ax>".to_string()));
         assert_eq!(info.deathmatch, Some(3));
         assert_eq!(info.fpd, Some(206));

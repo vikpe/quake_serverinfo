@@ -4,7 +4,10 @@ pub const DELIMITER: char = '\\';
 
 pub fn to_hashmap(serverinfo: &str) -> HashMap<String, String> {
     let str = clean(serverinfo);
-    let mut iter = str.trim_matches(DELIMITER).split(DELIMITER).map(|v| v.to_string());
+    let mut iter = str
+        .trim_matches(DELIMITER)
+        .split(DELIMITER)
+        .map(|v| v.to_string());
     let mut result = HashMap::new();
 
     while let Some(key) = iter.next() {
@@ -28,8 +31,6 @@ pub fn clean(serverinfo: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use pretty_assertions::assert_eq;
-
     use super::*;
 
     #[test]
