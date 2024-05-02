@@ -21,9 +21,4 @@ include = [
 anyhow = "1.0.82"
 
 [dev-dependencies]
-criterion = { version = "0.5.1", default-features = false, features = [] }
 pretty_assertions = "1.4.0"
-
-[[bench]]
-name = "bench_lib"
-harness = false
