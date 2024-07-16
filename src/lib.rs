@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use std::fmt::Display;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct Serverinfo {
+pub struct Settings {
     pub admin: Option<String>,
     pub deathmatch: Option<i32>,
     pub epoch: Option<i32>,
@@ -34,7 +34,7 @@ pub struct Serverinfo {
     pub z_ext: Option<i32>,
 }
 
-impl Display for Serverinfo {
+impl Display for Settings {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?}", self)
     }
@@ -42,13 +42,13 @@ impl Display for Serverinfo {
 
 /// # Examples
 /// ```
-/// use quake_serverinfo::Serverinfo;
+/// use quake_serverinfo::Settings;
 ///
-/// let info = Serverinfo::from(r#"\maxfps\77\matchtag\kombat"#);
-/// assert_eq!(info.maxfps, Some(77));
-/// assert_eq!(info.matchtag, Some("kombat".to_string()));
+/// let settings = Settings::from(r#"\maxfps\77\matchtag\kombat"#);
+/// assert_eq!(settings.maxfps, Some(77));
+/// assert_eq!(settings.matchtag, Some("kombat".to_string()));
 /// ```
-impl From<&HashMap<String, String>> for Serverinfo {
+impl From<&HashMap<String, String>> for Settings {
     fn from(value: &HashMap<String, String>) -> Self {
         Self {
             admin: map_get_string(value, "*admin"),
@@ -81,13 +81,13 @@ impl From<&HashMap<String, String>> for Serverinfo {
     }
 }
 
-impl From<&str> for Serverinfo {
+impl From<&str> for Settings {
     fn from(value: &str) -> Self {
         Self::from(&quake_infostring::to_hashmap(value))
     }
 }
 
-impl From<&[u8]> for Serverinfo {
+impl From<&[u8]> for Settings {
     fn from(bytes: &[u8]) -> Self {
         Self::from(quake_text::bytestr::to_unicode(bytes).as_str())
     }
@@ -111,10 +111,10 @@ mod tests {
 
     #[test]
     fn test_display() {
-        let info = Serverinfo::from(INFO_STR);
+        let settings = Settings::from(INFO_STR);
         assert_eq!(
-            info.to_string(),
-            r#"Serverinfo { admin: Some("suom1 <suom1@irc.ax>"), deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), status: Some("Standby"), serverdemo: None, sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
+            settings.to_string(),
+            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), status: Some("Standby"), serverdemo: None, sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
         );
     }
 
@@ -125,44 +125,44 @@ mod tests {
             ("map".to_string(), "dm2".to_string()),
         ]);
 
-        let expected = Serverinfo {
+        let expected = Settings {
             maxfps: Some(77),
             map: Some("dm2".to_string()),
             ..Default::default()
         };
 
-        assert_eq!(Serverinfo::from(&map), expected);
+        assert_eq!(Settings::from(&map), expected);
     }
 
     #[test]
     fn test_from_str() {
-        let info = Serverinfo::from(INFO_STR);
-        assert_eq!(info.admin, Some("suom1 <suom1@irc.ax>".to_string()));
-        assert_eq!(info.deathmatch, Some(3));
-        assert_eq!(info.fpd, Some(206));
-        assert_eq!(info.gamedir, Some("qw".to_string()));
-        assert_eq!(info.hostname, Some("QUAKE.SE KTX:28501".to_string()));
-        assert_eq!(info.ktxver, Some("1.42".to_string()));
-        assert_eq!(info.map, Some("maphub_v1".to_string()));
-        assert_eq!(info.maxclients, Some(4));
-        assert_eq!(info.maxfps, Some(77));
-        assert_eq!(info.maxspectators, Some(12));
-        assert_eq!(info.mode, Some("2on2".to_string()));
-        assert_eq!(info.pm_ktjump, Some(1));
-        assert_eq!(info.progs, Some("so".to_string()));
-        assert_eq!(info.qvm, Some("so".to_string()));
-        assert_eq!(info.status, Some("Standby".to_string()));
-        assert_eq!(info.sv_antilag, Some(2));
-        assert_eq!(info.teamplay, Some(2));
-        assert_eq!(info.timelimit, Some(10));
-        assert_eq!(info.version, Some("MVDSV 0.36".to_string()));
-        assert_eq!(info.z_ext, Some(511));
+        let settings = Settings::from(INFO_STR);
+        assert_eq!(settings.admin, Some("suom1 <suom1@irc.ax>".to_string()));
+        assert_eq!(settings.deathmatch, Some(3));
+        assert_eq!(settings.fpd, Some(206));
+        assert_eq!(settings.gamedir, Some("qw".to_string()));
+        assert_eq!(settings.hostname, Some("QUAKE.SE KTX:28501".to_string()));
+        assert_eq!(settings.ktxver, Some("1.42".to_string()));
+        assert_eq!(settings.map, Some("maphub_v1".to_string()));
+        assert_eq!(settings.maxclients, Some(4));
+        assert_eq!(settings.maxfps, Some(77));
+        assert_eq!(settings.maxspectators, Some(12));
+        assert_eq!(settings.mode, Some("2on2".to_string()));
+        assert_eq!(settings.pm_ktjump, Some(1));
+        assert_eq!(settings.progs, Some("so".to_string()));
+        assert_eq!(settings.qvm, Some("so".to_string()));
+        assert_eq!(settings.status, Some("Standby".to_string()));
+        assert_eq!(settings.sv_antilag, Some(2));
+        assert_eq!(settings.teamplay, Some(2));
+        assert_eq!(settings.timelimit, Some(10));
+        assert_eq!(settings.version, Some("MVDSV 0.36".to_string()));
+        assert_eq!(settings.z_ext, Some(511));
     }
 
     #[test]
     fn test_from_bytes() {
         let bytes = INFO_STR.as_bytes();
-        let info = Serverinfo::from(bytes);
-        assert_eq!(info.admin, Some("suom1 <suom1@irc.ax>".to_string()));
+        let settings = Settings::from(bytes);
+        assert_eq!(settings.admin, Some("suom1 <suom1@irc.ax>".to_string()));
     }
 }

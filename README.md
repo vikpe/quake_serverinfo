@@ -5,17 +5,17 @@
 ## Usage
 
 ```rust
-use quake_serverinfo::Serverinfo;
+use quake_serverinfo::Settings;
 
-let info = Serverinfo::from(r#"\maxfps\77\matchtag\kombat"#);
-assert_eq!(info.maxfps, Some(77));
-assert_eq!(info.matchtag, Some("kombat".to_string()));
+let settings = Settings::from(r#"\maxfps\77\matchtag\kombat"#);
+assert_eq!(settings.maxfps, Some(77));
+assert_eq!(settings.matchtag, Some("kombat".to_string()));
 ```
 
 ## Fields
 
 ```rust
-pub struct Serverinfo {
+pub struct Settings {
     pub admin: Option<String>,
     pub deathmatch: Option<i32>,
     pub epoch: Option<i32>,
