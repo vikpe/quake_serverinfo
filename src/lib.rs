@@ -87,6 +87,12 @@ impl From<&str> for Serverinfo {
     }
 }
 
+impl From<&[u8]> for Serverinfo {
+    fn from(bytes: &[u8]) -> Self {
+        Self::from(quake_text::bytestr::to_unicode(bytes).as_str())
+    }
+}
+
 fn map_get_string(map: &HashMap<String, String>, key: &str) -> Option<String> {
     map.get(key).map(|v| v.to_string())
 }
@@ -151,5 +157,12 @@ mod tests {
         assert_eq!(info.timelimit, Some(10));
         assert_eq!(info.version, Some("MVDSV 0.36".to_string()));
         assert_eq!(info.z_ext, Some(511));
+    }
+
+    #[test]
+    fn test_from_bytes() {
+        let bytes = INFO_STR.as_bytes();
+        let info = Serverinfo::from(bytes);
+        assert_eq!(info.admin, Some("suom1 <suom1@irc.ax>".to_string()));
     }
 }
