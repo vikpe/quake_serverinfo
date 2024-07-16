@@ -4,7 +4,7 @@
 use std::collections::HashMap;
 use std::fmt::Display;
 
-#[derive(Debug, Default, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct Serverinfo {
     pub admin: Option<String>,
     pub deathmatch: Option<i32>,
