@@ -5,7 +5,7 @@ categories = ["parsing"]
 keywords = ["servers", "quake", "quakeworld"]
 repository = "https://github.com/vikpe/quake_serverinfo"
 authors = ["Viktor Persson <viktor.persson@arcsin.se>"]
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 license = "MIT"
 include = [
@@ -19,6 +19,12 @@ include = [
 [dependencies]
 quake_infostring = "0.1.0"
 quake_text = "0.2.0"
+serde = { version = "1.0.204", optional = true, features = ["derive"] }
+serde_json = { version = "1.0.120", optional = true }
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
+
+[features]
+default = []
+json = ["dep:serde", "dep:serde_json"]

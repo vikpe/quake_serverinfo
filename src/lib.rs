@@ -4,7 +4,11 @@
 use std::collections::HashMap;
 use std::fmt::Display;
 
+#[cfg(feature = "json")]
+use serde::{Deserialize, Serialize};
+
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
+#[cfg_attr(feature = "json", derive(Serialize, Deserialize))]
 pub struct Settings {
     pub admin: Option<String>,
     pub deathmatch: Option<i32>,
