@@ -11,12 +11,16 @@ use serde::{Deserialize, Serialize};
 #[cfg_attr(feature = "json", derive(Serialize, Deserialize))]
 pub struct Settings {
     pub admin: Option<String>,
+    pub city: Option<String>,
+    pub coords: Option<String>,
+    pub countrycode: Option<String>,
     pub deathmatch: Option<i32>,
     pub epoch: Option<i32>,
     pub fpd: Option<i32>,
     pub fraglimit: Option<i32>,
     pub gamedir: Option<String>,
     pub hostname: Option<String>,
+    pub hostport: Option<String>,
     pub ktxmode: Option<String>,
     pub ktxver: Option<String>,
     pub map: Option<String>,
@@ -29,8 +33,8 @@ pub struct Settings {
     pub pm_ktjump: Option<i32>,
     pub progs: Option<String>,
     pub qvm: Option<String>,
-    pub status: Option<String>,
     pub serverdemo: Option<String>,
+    pub status: Option<String>,
     pub sv_antilag: Option<i32>,
     pub teamplay: Option<i32>,
     pub timelimit: Option<i32>,
@@ -56,12 +60,16 @@ impl From<&HashMap<String, String>> for Settings {
     fn from(value: &HashMap<String, String>) -> Self {
         Self {
             admin: map_get_string(value, "*admin"),
+            city: map_get_string(value, "city"),
+            coords: map_get_string(value, "coords"),
+            countrycode: map_get_string(value, "countrycode"),
             deathmatch: map_get_int(value, "deathmatch"),
             epoch: map_get_int(value, "epoch"),
             fpd: map_get_int(value, "fpd"),
             fraglimit: map_get_int(value, "fraglimit"),
             gamedir: map_get_string(value, "*gamedir"),
             hostname: map_get_string(value, "hostname"),
+            hostport: map_get_string(value, "hostport"),
             ktxmode: map_get_string(value, "ktxmode"),
             ktxver: map_get_string(value, "ktxver"),
             map: map_get_string(value, "map"),
@@ -74,8 +82,8 @@ impl From<&HashMap<String, String>> for Settings {
             pm_ktjump: map_get_int(value, "pm_ktjump"),
             progs: map_get_string(value, "*progs"),
             qvm: map_get_string(value, "*qvm"),
-            status: map_get_string(value, "status"),
             serverdemo: map_get_string(value, "serverdemo"),
+            status: map_get_string(value, "status"),
             sv_antilag: map_get_int(value, "sv_antilag"),
             teamplay: map_get_int(value, "teamplay"),
             timelimit: map_get_int(value, "timelimit"),
@@ -118,7 +126,7 @@ mod tests {
         let settings = Settings::from(INFO_STR);
         assert_eq!(
             settings.to_string(),
-            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), status: Some("Standby"), serverdemo: None, sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
+            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), city: None, coords: None, countrycode: None, deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), hostport: None, ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), serverdemo: None, status: Some("Standby"), sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
         );
     }
 
@@ -142,10 +150,14 @@ mod tests {
     fn test_from_str() {
         let settings = Settings::from(INFO_STR);
         assert_eq!(settings.admin, Some("suom1 <suom1@irc.ax>".to_string()));
+        assert_eq!(settings.city, None);
+        assert_eq!(settings.coords, None);
+        assert_eq!(settings.countrycode, None);
         assert_eq!(settings.deathmatch, Some(3));
         assert_eq!(settings.fpd, Some(206));
         assert_eq!(settings.gamedir, Some("qw".to_string()));
         assert_eq!(settings.hostname, Some("QUAKE.SE KTX:28501".to_string()));
+        assert_eq!(settings.hostport, None);
         assert_eq!(settings.ktxver, Some("1.42".to_string()));
         assert_eq!(settings.map, Some("maphub_v1".to_string()));
         assert_eq!(settings.maxclients, Some(4));
