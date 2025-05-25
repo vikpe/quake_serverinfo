@@ -128,7 +128,7 @@ mod tests {
         let settings = Settings::from(INFO_STR);
         assert_eq!(
             settings.to_string(),
-            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), city: None, coords: None, countrycode: None, deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), hostport: None, ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), serverdemo: None, status: Some("Standby"), sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
+            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), broadcast: None, city: None, coords: None, countrycode: None, deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), hostport: None, ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), serverdemo: None, status: Some("Standby"), sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
         );
     }
 
