@@ -4,13 +4,14 @@
 use std::collections::HashMap;
 use std::fmt::Display;
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-#[cfg_attr(feature = "json", derive(Serialize, Deserialize))]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Settings {
     pub admin: Option<String>,
+    pub broadcast: Option<i32>,
     pub city: Option<String>,
     pub coords: Option<String>,
     pub countrycode: Option<String>,
@@ -60,6 +61,7 @@ impl From<&HashMap<String, String>> for Settings {
     fn from(value: &HashMap<String, String>) -> Self {
         Self {
             admin: map_get_string(value, "*admin"),
+            broadcast: map_get_int(value, "broadcast"),
             city: map_get_string(value, "city"),
             coords: map_get_string(value, "coords"),
             countrycode: map_get_string(value, "countrycode"),
@@ -126,7 +128,7 @@ mod tests {
         let settings = Settings::from(INFO_STR);
         assert_eq!(
             settings.to_string(),
-            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), city: None, coords: None, countrycode: None, deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), hostport: None, ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), serverdemo: None, status: Some("Standby"), sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
+            r#"Settings { admin: Some("suom1 <suom1@irc.ax>"), broadcast: None, city: None, coords: None, countrycode: None, deathmatch: Some(3), epoch: None, fpd: Some(206), fraglimit: None, gamedir: Some("qw"), hostname: Some("QUAKE.SE KTX:28501"), hostport: None, ktxmode: None, ktxver: Some("1.42"), map: Some("maphub_v1"), matchtag: None, maxclients: Some(4), maxfps: Some(77), maxspectators: Some(12), mode: Some("2on2"), needpass: None, pm_ktjump: Some(1), progs: Some("so"), qvm: Some("so"), serverdemo: None, status: Some("Standby"), sv_antilag: Some(2), teamplay: Some(2), timelimit: Some(10), version: Some("MVDSV 0.36"), z_ext: Some(511) }"#
         );
     }
 
@@ -150,6 +152,7 @@ mod tests {
     fn test_from_str() {
         let settings = Settings::from(INFO_STR);
         assert_eq!(settings.admin, Some("suom1 <suom1@irc.ax>".to_string()));
+        assert_eq!(settings.broadcast, None);
         assert_eq!(settings.city, None);
         assert_eq!(settings.coords, None);
         assert_eq!(settings.countrycode, None);
