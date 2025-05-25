@@ -4,11 +4,11 @@
 use std::collections::HashMap;
 use std::fmt::Display;
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-#[cfg_attr(feature = "json", derive(Serialize, Deserialize))]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Settings {
     pub admin: Option<String>,
     pub city: Option<String>,

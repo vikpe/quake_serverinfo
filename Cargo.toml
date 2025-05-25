@@ -19,6 +19,8 @@ include = [
 [dependencies]
 quake_infostring = "0.1.0"
 quake_text = "0.2.0"
+
+# optional
 serde = { version = "1.0.204", optional = true, features = ["derive"] }
 serde_json = { version = "1.0.120", optional = true }
 
@@ -27,4 +29,4 @@ pretty_assertions = "1.4.0"
 
 [features]
 default = []
-json = ["dep:serde", "dep:serde_json"]
+serde = ["dep:serde", "dep:serde_json"]
