@@ -5,8 +5,8 @@ categories = ["parsing"]
 keywords = ["servers", "quake", "quakeworld"]
 repository = "https://github.com/vikpe/quake_serverinfo"
 authors = ["Viktor Persson <viktor.persson@arcsin.se>"]
-version = "0.10.0"
-edition = "2021"
+version = "0.11.0"
+edition = "2024"
 license = "MIT"
 include = [
     "/Cargo.toml",
@@ -15,7 +15,7 @@ include = [
 ]
 
 [dependencies]
-quake_infostring = "0.2.0"
+quake_infostring = "0.3.0"
 quake_text = "0.3.0"
 
 # optional
