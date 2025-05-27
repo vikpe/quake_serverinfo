@@ -5,7 +5,7 @@ categories = ["parsing"]
 keywords = ["servers", "quake", "quakeworld"]
 repository = "https://github.com/vikpe/quake_serverinfo"
 authors = ["Viktor Persson <viktor.persson@arcsin.se>"]
-version = "0.9.0"
+version = "0.10.0"
 edition = "2021"
 license = "MIT"
 include = [
@@ -14,19 +14,16 @@ include = [
     "/src/**",
 ]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-quake_infostring = "0.1.0"
-quake_text = "0.2.0"
+quake_infostring = "0.2.0"
+quake_text = "0.3.0"
 
 # optional
 serde = { version = "1.0.204", optional = true, features = ["derive"] }
-serde_json = { version = "1.0.120", optional = true }
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
 
 [features]
 default = []
-serde = ["dep:serde", "dep:serde_json"]
+serde = ["dep:serde"]
